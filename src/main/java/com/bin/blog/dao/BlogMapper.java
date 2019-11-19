@@ -1,6 +1,10 @@
 package com.bin.blog.dao;
 
+import java.util.List;
+
 import com.bin.blog.entity.Blog;
+import com.bin.blog.entity.Category;
+import com.bin.blog.util.PageQueryUtil;
 
 public interface BlogMapper {
     int deleteByPrimaryKey(Long blogId);
@@ -16,4 +20,8 @@ public interface BlogMapper {
     int updateByPrimaryKeyWithBLOBs(Blog record);
 
     int updateByPrimaryKey(Blog record);
+    List<Blog> findBlogList(PageQueryUtil pageUtil);
+    int getTotalBlogs(PageQueryUtil pageUtil);
+    int deleteBatch(Integer[] ids);
+
 }

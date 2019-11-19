@@ -20,5 +20,6 @@ public interface TagRelationMapper {
 
 	    int updateByPrimaryKey(TagRelation record);
 	    int batchInsert(@Param("relationList") List<TagRelation> blogTagRelationList);
+	    int deleteByBlogId(Long id);
 
 	}
