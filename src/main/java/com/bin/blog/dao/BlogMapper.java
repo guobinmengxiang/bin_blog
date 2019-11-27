@@ -2,6 +2,8 @@ package com.bin.blog.dao;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.bin.blog.entity.Blog;
 import com.bin.blog.entity.Category;
 import com.bin.blog.util.PageQueryUtil;
@@ -23,5 +25,6 @@ public interface BlogMapper {
     List<Blog> findBlogList(PageQueryUtil pageUtil);
     int getTotalBlogs(PageQueryUtil pageUtil);
     int deleteBatch(Integer[] ids);
+    List<Blog> findBlogListByType(@Param("type") int type, @Param("limit") int limit);
 
 }

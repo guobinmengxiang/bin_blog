@@ -230,11 +230,6 @@
             limit #{start},#{limit}
         </if>
     </select>
-
-    <select id="getTotalBlogs" parameterType="Map" resultType="int">
-        select count(*) from tb_blog
-        where is_deleted=0
-    </select>
       <update id="deleteBatch">
         update tb_blog
         set is_deleted=1 where blog_id in
@@ -242,4 +237,25 @@
             #{id}
         </foreach>
     </update>
+     <select id="findBlogListByType" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_blog
+        where is_deleted=0 AND blog_status = 1<!-- 发布状态的文章 -->
+        <if test="type!=null and type==0">
+            order by blog_views desc
+        </if>
+        <if test="type!=null and type==1">
+            order by blog_id desc
+        </if>
+        limit #{limit}
+    </select>
+
+    <select id="getTotalBlogs" parameterType="Map" resultType="int">
+        select count(*) from tb_blog
+        where is_deleted=0
+        <if test="blogStatus!=null">
+            AND blog_status = #{blogStatus}
+        </if>
+    </select>
 </mapper>

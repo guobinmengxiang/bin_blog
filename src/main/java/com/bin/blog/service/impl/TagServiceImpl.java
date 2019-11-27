@@ -8,6 +8,7 @@ import org.springframework.util.CollectionUtils;
 
 import com.bin.blog.dao.TagMapper;
 import com.bin.blog.dao.TagRelationMapper;
+import com.bin.blog.entity.BlogTagCount;
 import com.bin.blog.entity.Tag;
 import com.bin.blog.service.TagService;
 import com.bin.blog.util.PageQueryUtil;
@@ -48,5 +49,10 @@ public class TagServiceImpl implements TagService {
 	        }
 	        //删除tag
 	        return tagMapper.deleteBatch(ids) > 0;
+	    }
+
+	    @Override
+	    public List<BlogTagCount> getBlogTagCountForIndex() {
+	        return tagMapper.getTagCount();
 	    }
 	}

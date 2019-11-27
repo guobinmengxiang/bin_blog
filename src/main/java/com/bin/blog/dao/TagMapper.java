@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Component;
 
+import com.bin.blog.entity.BlogTagCount;
 import com.bin.blog.entity.Tag;
 import com.bin.blog.util.PageQueryUtil;
 @Component
@@ -28,4 +29,6 @@ public interface TagMapper {
 
 	    int deleteBatch(Integer[] ids);
 	    int batchInsertBlogTag(List<Tag> tagList);
+	    List<BlogTagCount> getTagCount();
+
 }
