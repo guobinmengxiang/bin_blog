@@ -29,4 +29,24 @@ List<SimpleBlogListVO> getBlogListForIndexPage(int type);
  * @return
  */
 PageResult getBlogsForIndexPage(int page);
+PageResult getBlogsPageBySearch(String keyword, int page);
+
+/**
+ * 根据分类获取文章列表
+ *
+ * @param categoryId
+ * @param page
+ * @return
+ */
+PageResult getBlogsPageByCategory(String categoryId, int page);
+
+
+/**
+ * 根据标签获取文章列表
+ *
+ * @param tagName
+ * @param page
+ * @return
+ */
+PageResult getBlogsPageByTag(String tagName, int page);
 }

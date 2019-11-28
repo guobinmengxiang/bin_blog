@@ -25,6 +25,7 @@ import com.bin.blog.entity.TagRelation;
 import com.bin.blog.service.BlogService;
 import com.bin.blog.util.PageQueryUtil;
 import com.bin.blog.util.PageResult;
+import com.bin.blog.util.PatternUtil;
 
 @Service
 public class BlogServiceImpl implements BlogService {
@@ -56,10 +57,10 @@ public class BlogServiceImpl implements BlogService {
         if (tags.length > 6) {
             return "标签数量限制为6";
         }
-        System.out.println("问题开始");
+
         //保存文章
         if (blogMapper.insertSelective(blog) > 0) {
-            System.out.println("问题结束");
+
 
             //新增的tag对象
             List<Tag> tagListForInsert = new ArrayList<>();
@@ -255,6 +256,85 @@ public class BlogServiceImpl implements BlogService {
             }
         }
         return blogListVOS;
+    }
+
+	
+
+	 /**
+     * 根据搜索关键字获取首页文章列表
+     *
+     * @param page
+     * @return
+     */
+    public PageResult getBlogsPageBySearch(String keyword, int page) {
+            if (page > 0 && PatternUtil.validKeyword(keyword)) {
+                Map param = new HashMap();
+                param.put("page", page);
+                param.put("limit", 9);
+                param.put("keyword", keyword);
+                param.put("blogStatus", 1);//过滤发布状态下的数据
+                PageQueryUtil pageUtil = new PageQueryUtil(param);
+                List<Blog> blogList = blogMapper.findBlogList(pageUtil);
+                List<BlogListVO> blogListVOS = getBlogListVOsByBlogs(blogList);
+                int total = blogMapper.getTotalBlogs(pageUtil);
+                PageResult pageResult = new PageResult(blogListVOS, total, pageUtil.getLimit(), pageUtil.getPage());
+                return pageResult;
+            }
+            return null;
+        }
+    /**
+     * 根据标签获取首页文章列表
+     *
+     * @param page
+     * @return
+     */
+  public PageResult getBlogsPageByTag(String tagName, int page) {
+        if (PatternUtil.validKeyword(tagName)) {
+            Tag tag = tagMapper.selectByTagName(tagName);
+            if (tag != null && page > 0) {
+                Map param = new HashMap();
+                param.put("page", page);
+                param.put("limit", 9);
+                param.put("tagId", tag.getTagId());
+                PageQueryUtil pageUtil = new PageQueryUtil(param);
+                List<Blog> blogList = blogMapper.getBlogsPageByTagId(pageUtil);
+                List<BlogListVO> blogListVOS = getBlogListVOsByBlogs(blogList);
+                int total = blogMapper.getTotalBlogsByTagId(pageUtil);
+                PageResult pageResult = new PageResult(blogListVOS, total, pageUtil.getLimit(), pageUtil.getPage());
+                return pageResult;
+            }
+        }
+        return null;
+    }
+
+	 /**
+     * 根据分类获取首页文章列表
+     *
+     * @param page
+     * @return
+     */
+    public PageResult getBlogsPageByCategory(String categoryName, int page) {
+        if (PatternUtil.validKeyword(categoryName)) {
+            Category blogCategory = categoryMapper.selectByCategoryName(categoryName);
+            if ("默认分类".equals(categoryName) && blogCategory == null) {
+                blogCategory = new Category();
+                blogCategory.setCategoryId(0);
+            }
+            if (blogCategory != null && page > 0) {
+                Map param = new HashMap();
+                param.put("page", page);
+                param.put("limit", 9);
+                param.put("blogCategoryId", blogCategory.getCategoryId());
+                param.put("blogStatus", 1);//过滤发布状态下的数据
+                PageQueryUtil pageUtil = new PageQueryUtil(param);
+                List<Blog> blogList = blogMapper.findBlogList(pageUtil);
+                List<BlogListVO> blogListVOS = getBlogListVOsByBlogs(blogList);
+                int total = blogMapper.getTotalBlogs(pageUtil);
+                PageResult pageResult = new PageResult(blogListVOS, total, pageUtil.getLimit(), pageUtil.getPage());
+                return pageResult;
+            }
+        }
+        return null;
     }
 }
 
