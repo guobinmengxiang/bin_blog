@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import com.bin.blog.controller.vo.BlogDetailVO;
 import com.bin.blog.service.BlogService;
 import com.bin.blog.service.TagService;
 import com.bin.blog.util.PageResult;
@@ -116,5 +117,19 @@ public class MyBlogController {
         request.setAttribute("pageUrl", "tag");
         request.setAttribute("keyword", tagName);
         return "blog/list";
+    }
+    /**
+     * 详情页
+     *
+     * @return
+     */
+    @GetMapping("/blog/{blogId}")
+    public String detail(HttpServletRequest request, @PathVariable("blogId") Long blogId) {
+        BlogDetailVO blogDetailVO = blogService.getBlogDetail(blogId);
+        if (blogDetailVO != null) {
+            request.setAttribute("blogDetailVO", blogDetailVO);
+        }
+        request.setAttribute("pageName", "详情");
+        return "blog/detail";
     }
 }

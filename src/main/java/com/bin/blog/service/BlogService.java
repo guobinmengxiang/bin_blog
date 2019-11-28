@@ -2,6 +2,7 @@ package com.bin.blog.service;
 
 import java.util.List;
 
+import com.bin.blog.controller.vo.BlogDetailVO;
 import com.bin.blog.controller.vo.SimpleBlogListVO;
 import com.bin.blog.entity.Blog;
 import com.bin.blog.util.PageQueryUtil;
@@ -49,4 +50,11 @@ PageResult getBlogsPageByCategory(String categoryId, int page);
  * @return
  */
 PageResult getBlogsPageByTag(String tagName, int page);
+/**
+ * 文章详情获取
+ *
+ * @param blogId
+ * @return
+ */
+BlogDetailVO getBlogDetail(Long blogId);
 }

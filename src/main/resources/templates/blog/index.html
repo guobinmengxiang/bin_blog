@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="blog/header::head-fragment"></head>
 <body>
@@ -12,14 +11,14 @@
                         <div class="col-md-6 col-sm-6 blog-main-card">
                             <article class="blog-summary">
                                 <header>
-                                    <a>
+                                    <a th:href="@{'/blog/' + ${blog.blogId}}">
                                         <img th:src="@{${blog.blogCoverImage}}" alt="">
                                         <h3>
                                             <th:block th:text="${blog.blogTitle}"></th:block>
                                         </h3>
                                     </a>
                                     <div class="blog-category">
-                                        <a>
+                                        <a th:href="@{'/category/' + ${blog.blogCategoryName}}">
                                             <div class="blog-category-icon">
                                                 <img th:src="@{${blog.blogCategoryIcon}}" alt="">
                                             </div>
@@ -76,7 +75,7 @@
                             <th:block th:if="${null != hotBlogs}">
                                 <th:block th:each="hotBlog : ${hotBlogs}">
                                     <!-- 链接暂定，后面实现了文章详情再写 -->
-                                    <li><a>
+                                    <li><a th:href="@{'/blog/' + ${hotBlog.blogId}}">
                                         <th:block th:text="${hotBlog.blogTitle}"></th:block>
                                     </a></li>
                                 </th:block>
@@ -92,7 +91,7 @@
                         <ul class="clean-list">
                             <th:block th:if="${null != newBlogs}">
                                 <th:block th:each="newBlog : ${newBlogs}">
-                                    <li><a>
+                                    <li><a th:href="@{'/blog/' + ${newBlog.blogId}}">
                                         <th:block th:text="${newBlog.blogTitle}"></th:block>
                                     </a></li>
                                 </th:block>
@@ -106,15 +105,15 @@
                     </header>
                     <div class="body clearfix">
                         <ul class="tags">
-        <th:block th:if="${null != hotTags}">
-            <th:block th:each="hotTag : ${hotTags}">
-                <li><a th:href="@{'/tag/' + ${hotTag.tagName}}"><!-- 标签搜索链接 -->
-                        <th:block th:text="${hotTag.tagName}+'('+${hotTag.tagCount}+')'"></th:block>
-                    </a>
-                </li>
-            </th:block>
-        </th:block>
-    </ul>
+                            <th:block th:if="${null != hotTags}">
+                                <th:block th:each="hotTag : ${hotTags}">
+                                    <li><a th:href="@{'/tag/' + ${hotTag.tagName}}">
+                                            <th:block th:text="${hotTag.tagName}+'('+${hotTag.tagCount}+')'"></th:block>
+                                        </a>
+                                    </li>
+                                </th:block>
+                            </th:block>
+                        </ul>
                     </div>
                 </div>
             </aside>
@@ -127,6 +126,5 @@
 <script th:src="@{/blog/js/bootstrap.min.js}"></script>
 <script th:src="@{/blog/js/modernizr.js}"></script>
 <script th:src="@{/blog/js/search.js}"></script>
-
 </body>
 </html>

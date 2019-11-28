@@ -1,6 +1,7 @@
 package com.bin.blog.service.impl;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,7 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
+import org.thymeleaf.util.StringUtils;
 
+import com.bin.blog.controller.vo.BlogDetailVO;
 import com.bin.blog.controller.vo.BlogListVO;
 import com.bin.blog.controller.vo.SimpleBlogListVO;
 import com.bin.blog.dao.BlogMapper;
@@ -23,6 +26,7 @@ import com.bin.blog.entity.Category;
 import com.bin.blog.entity.Tag;
 import com.bin.blog.entity.TagRelation;
 import com.bin.blog.service.BlogService;
+import com.bin.blog.util.MarkDownUtil;
 import com.bin.blog.util.PageQueryUtil;
 import com.bin.blog.util.PageResult;
 import com.bin.blog.util.PatternUtil;
@@ -333,6 +337,57 @@ public class BlogServiceImpl implements BlogService {
                 PageResult pageResult = new PageResult(blogListVOS, total, pageUtil.getLimit(), pageUtil.getPage());
                 return pageResult;
             }
+        }
+        return null;
+    }
+
+    /**
+     * 文章详情获取
+     * 
+     * @param blogId
+     * @return
+     */    
+    public BlogDetailVO getBlogDetail(Long blogId) {
+        Blog blog = blogMapper.selectByPrimaryKey(blogId);
+        //不为空且状态为已发布
+        BlogDetailVO blogDetailVO = getBlogDetailVO(blog);
+        if (blogDetailVO != null) {
+            return blogDetailVO;
+        }
+        return null;
+    }
+
+    /**
+     * 方法抽取
+     *
+     * @param blog
+     * @return
+     */
+    private BlogDetailVO getBlogDetailVO(Blog blog) {
+        //判空以及发布状态是否为已发布
+        if (blog != null && blog.getBlogStatus() == 1) {
+            //增加浏览量
+            blog.setBlogViews(blog.getBlogViews() + 1);
+            blogMapper.updateByPrimaryKey(blog);
+            BlogDetailVO blogDetailVO = new BlogDetailVO();
+            BeanUtils.copyProperties(blog, blogDetailVO);
+            //md格式转换
+            blogDetailVO.setBlogContent(MarkDownUtil.mdToHtml(blogDetailVO.getBlogContent()));
+            Category blogCategory = categoryMapper.selectByPrimaryKey(blog.getBlogCategoryId());
+            if (blogCategory == null) {
+                blogCategory = new Category();
+                blogCategory.setCategoryId(0);
+                blogCategory.setCategoryName("默认分类");
+                blogCategory.setCategoryIcon("/admin/dist/img/category/00.png");
+            }
+            //分类信息
+            blogDetailVO.setBlogCategoryIcon(blogCategory.getCategoryIcon());
+            if (!StringUtils.isEmpty(blog.getBlogTags())) {
+                //标签设置
+                List<String> tags = Arrays.asList(blog.getBlogTags().split(","));
+                blogDetailVO.setBlogTags(tags);
+            }
+            return blogDetailVO;
         }
         return null;
     }
