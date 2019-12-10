@@ -25,12 +25,18 @@ public interface CategoryService {
      * @return
      */
     Boolean saveCategory(String categoryName, String categoryIcon);
-
+    /**
+     * 修改分类数据
+     *
+     * @param categoryName
+     * @param categoryIcon
+     * @return
+     */
     Boolean updateCategory(Integer categoryId, String categoryName, String categoryIcon);
 
     Boolean deleteBatch(Integer[] ids);
 
-    List<Category> getAllCategories();
+    List<Category> getAllCategories();//
 
     Category selectById(Integer id);
 }

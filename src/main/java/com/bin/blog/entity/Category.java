@@ -2,19 +2,26 @@ package com.bin.blog.entity;
 
 import java.util.Date;
 
+import com.bin.blog.util.Date1;
+
+/**
+ * @author 博客分类
+ *
+ */
 public class Category {
+	//id
     private Integer categoryId;
-
+    //分类名称
     private String categoryName;
-
+    //分类图标
     private String categoryIcon;
-
+    //分类的排序值 被使用的越多数值越大
     private Integer categoryRank;
-
+    //是否删除 0=否 1=是
     private Byte isDeleted;
-
+    //创建时间
     private Date createTime;
-
+    Date1 date = new Date1();
     public Integer getCategoryId() {
         return categoryId;
     }
@@ -56,7 +63,7 @@ public class Category {
     }
 
     public Date getCreateTime() {
-        return createTime;
+        return date.formatDate();
     }
 
     public void setCreateTime(Date createTime) {

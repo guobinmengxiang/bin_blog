@@ -8,6 +8,10 @@ import com.bin.blog.dao.AdminUserMapper;
 import com.bin.blog.entity.AdminUser;
 import com.bin.blog.service.AdminUserService;
 import com.bin.blog.util.MD5Util;
+/**
+ * @author Admin 接口实现类
+ *
+ */
 @Service
 public class AdminServiceImpl implements AdminUserService {
 	//把一个bean注入到当前的类中,此类中可以使用 adminUserMapper;
@@ -15,6 +19,7 @@ public class AdminServiceImpl implements AdminUserService {
       private AdminUserMapper adminUserMapper;
 	@Override
 	public AdminUser login(String name, String password) {
+		//MD5 加密
 		String passWord=MD5Util.MD5Encode(password, "UTF-8");
 		return adminUserMapper.login(name, passWord);
 	}

@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>personal blog | Log in</title>
+    <title>OldSix</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" th:href="@{/admin/dist/img/favicon.png}"/>
@@ -33,7 +33,7 @@
 </div>
 <div class="login-box">
     <div class="login-logo" style="color: #007bff;">
-        <h1>personal blog</h1>
+        <h1>OldSix</h1>
     </div>
     <!-- /.login-logo -->
     <div class="card">
@@ -58,6 +58,7 @@
                         <input type="text" class="form-control" name="verifyCode" placeholder="请输入验证码" required="true">
                     </div>
                     <div class="col-6">
+                   <!--  根据时间戳刷新验证码 -->
                         <img alt="单击图片刷新！" class="pointer" th:src="@{/common/kaptcha}"
                              onclick="this.src='/common/kaptcha?d='+new Date()*1">
                     </div>

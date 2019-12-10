@@ -1,15 +1,20 @@
 package com.bin.blog.entity;
-
+/**
+ * @author管理员类，用于登录后台
+ * add by zhanguobin 
+ * 2019-12-9
+ *
+ */
 public class AdminUser {
 	//用户id
     private Integer adminUserId;
      //登录名
     private String loginUserName;
- //密码
+     //密码
     private String loginPassword;
-//昵称
+     //昵称
     private String nickName;
-//状态，用于软删除；
+    //状态，用于软删除；0-有效、1-无效，防止误删
     private Byte locked;
 
     public Integer getAdminUserId() {

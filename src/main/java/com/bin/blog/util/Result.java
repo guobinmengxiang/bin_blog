@@ -3,7 +3,9 @@ package com.bin.blog.util;
 import java.io.Serializable;
 public class Result<T> implements Serializable {
     private static final long serialVersionUID = 1L;
+    //状态码
     private int resultCode;
+    //返回参数
     private String message;
     private T data;
 

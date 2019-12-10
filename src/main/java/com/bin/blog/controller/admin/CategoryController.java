@@ -35,6 +35,7 @@ public class CategoryController {
         if (StringUtils.isEmpty(params.get("page")) || StringUtils.isEmpty(params.get("limit"))) {
             return ResultGenerator.genFailResult("参数异常！");
         }
+        //处理分页信息
         PageQueryUtil pageUtil = new PageQueryUtil(params);
         return ResultGenerator.genSuccessResult(categoryService.getBlogCategoryPage(pageUtil));
     }
@@ -69,7 +70,7 @@ public class CategoryController {
                          @RequestParam("categoryName") String categoryName,
                          @RequestParam("categoryIcon") String categoryIcon) {
         if (categoryId == null || categoryId < 1) {
-            return ResultGenerator.genFailResult("非法参数！");
+            return ResultGenerator.genFailResult("未选择分类id");
         }
         if (StringUtils.isEmpty(categoryName)) {
             return ResultGenerator.genFailResult("请输入分类名称！");

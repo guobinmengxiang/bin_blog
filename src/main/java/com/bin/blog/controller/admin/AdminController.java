@@ -14,6 +14,10 @@ import org.thymeleaf.util.StringUtils;
 
 import com.bin.blog.entity.AdminUser;
 import com.bin.blog.service.AdminUserService;
+/**
+ * @author 管理员 Controller
+ *
+ */
 @Controller
 //该控制器处理的所有请求都被映射到/admin下
 @RequestMapping("/admin")
@@ -27,8 +31,10 @@ public class AdminController {
 	    }
 	//映射一个POST请求
 	@PostMapping(value = "/login")
-public String login(@RequestParam("userName")String name ,@RequestParam("password")String password,@RequestParam("verifyCode")String verifyCode,HttpSession session){
-	//	System.out.println("验证入参"+name+password);
+public String login(@RequestParam("userName")String name ,
+		@RequestParam("password")String password,
+		@RequestParam("verifyCode")String verifyCode,
+		HttpSession session){
 	if(StringUtils.isEmpty(verifyCode)){
 		session.setAttribute("errorMsg","验证码不能为空");
 		return "admin/login";
@@ -43,7 +49,7 @@ public String login(@RequestParam("userName")String name ,@RequestParam("passwor
           return "admin/login";
       }
       AdminUser userAdmin = adminUserService.login(name, password);
-     // System.out.println(userAdmin);
+      //登录成功，存session,两个小时免登陆
       if (userAdmin != null) {
           session.setAttribute("loginUser", userAdmin.getNickName());
           session.setAttribute("loginUserId", userAdmin.getAdminUserId());
@@ -71,7 +77,9 @@ public String login(@RequestParam("userName")String name ,@RequestParam("passwor
 	  @PostMapping("/profile/name")
 	  //当加上@ResponseBody注解后不会解析成跳转地址 会解析成相应的json格式的对象 集合 字符串或者xml等直接返回给前台 可以通过 ajax 的“success”：fucntion(data){} data直接获取到。
 	    @ResponseBody
-	  public String updateName(HttpServletRequest request,@RequestParam("loginUserName")String userName,@RequestParam("nickName")String nickName){
+	  public String updateName(HttpServletRequest request,
+			  @RequestParam("loginUserName")String userName,
+			  @RequestParam("nickName")String nickName){
 		  if (StringUtils.isEmpty(userName) || StringUtils.isEmpty(nickName)) {
 	            return "修改参数不能为空";
 	        }

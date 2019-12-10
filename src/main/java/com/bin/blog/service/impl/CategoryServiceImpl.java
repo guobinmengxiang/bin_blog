@@ -3,6 +3,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.bin.blog.dao.BlogMapper;
 import com.bin.blog.dao.CategoryMapper;
 import com.bin.blog.entity.Category;
 import com.bin.blog.service.CategoryService;
@@ -16,7 +17,14 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Autowired
     private CategoryMapper categoryMapper;
-
+    @Autowired
+    private BlogMapper blogMapper;
+    /**
+     * 查询分类的分页数据
+     *
+     * @param pageUtil
+     * @return
+     */
     @Override
     public PageResult getBlogCategoryPage(PageQueryUtil pageUtil) {
         List<Category> categoryList = categoryMapper.findCategoryList(pageUtil);
@@ -29,7 +37,13 @@ public class CategoryServiceImpl implements CategoryService {
     public int getTotalCategories() {
         return categoryMapper.getTotalCategories(null);
     }
-
+    /**
+     * 添加分类数据
+     *
+     * @param categoryName
+     * @param categoryIcon
+     * @return
+     */
     @Override
     public Boolean saveCategory(String categoryName, String categoryIcon) {
         Category temp = categoryMapper.selectByCategoryName(categoryName);
@@ -41,14 +55,22 @@ public class CategoryServiceImpl implements CategoryService {
         }
         return false;
     }
-
+    /**
+     * 修改分类数据
+     *
+     * @param categoryName
+     * @param categoryIcon
+     * @return
+     */
     @Override
     @Transactional
     public Boolean updateCategory(Integer categoryId, String categoryName, String categoryIcon) {
-        Category blogCategory = categoryMapper.selectByPrimaryKey(categoryId);
-        if (blogCategory == null) {
+    	   Category blogCategory = categoryMapper.selectByCategoryName(categoryName);
+    	   if (blogCategory == null) {
+    		   blogCategory=new  Category();
             blogCategory.setCategoryIcon(categoryIcon);
             blogCategory.setCategoryName(categoryName);
+            blogCategory.setCategoryId(categoryId);
             return categoryMapper.updateByPrimaryKeySelective(blogCategory) > 0;
         }
         return false;

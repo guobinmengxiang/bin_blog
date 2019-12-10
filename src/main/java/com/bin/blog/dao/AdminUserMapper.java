@@ -3,6 +3,10 @@ package com.bin.blog.dao;
 import org.apache.ibatis.annotations.Param;
 
 import com.bin.blog.entity.AdminUser;
+/**
+ * @author 管理员Dao
+ *
+ */
 public interface AdminUserMapper {
     //获取用户信息
     AdminUser selectByPrimaryKey(Integer adminUserId);
