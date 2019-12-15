@@ -13,22 +13,42 @@ public interface TagMapper {
 
 	    int insert(Tag record);
 
+	    /**
+	     * @param 插入标签
+	     * @return
+	     */
 	    int insertSelective(Tag record);
 
-	    Tag selectByPrimaryKey(Integer tagId);
+	  //  Tag selectByPrimaryKey(Integer tagId);
 
+	    /**
+	     * @param 查询库里是否有这个标签
+	     * @return
+	     */
 	    Tag selectByTagName(String tagName);
 
-	    int updateByPrimaryKeySelective(Tag record);
+	  //  int updateByPrimaryKeySelective(Tag record);
 
-	    int updateByPrimaryKey(Tag record);
+	  //  int updateByPrimaryKey(Tag record);
 
+	    /**
+	     * @param 查询分页数据
+	     * @return
+	     */
 	    List<Tag> findTagList(PageQueryUtil pageUtil);
 
+	    /**
+	     * @param 获取标签总量
+	     * @return
+	     */
 	    int getTotalTags(PageQueryUtil pageUtil);
 
+	    /**
+	     * @param 删除
+	     * @return
+	     */
 	    int deleteBatch(Integer[] ids);
-	    int batchInsertBlogTag(List<Tag> tagList);
-	    List<BlogTagCount> getTagCount();
+	   int batchInsertBlogTag(List<Tag> tagList);
+	   List<BlogTagCount> getTagCount();
 
 }

@@ -2,13 +2,18 @@ package com.bin.blog.entity;
 
 import java.util.Date;
 
+/**
+ * @author 标签
+ *
+ */
 public class Tag {
+	//id
     private Integer tagId;
-
+    //name
     private String tagName;
-
+    //是否删除
     private Byte isDeleted;
-
+    //创建日期
     private Date createTime;
 
     public Integer getTagId() {

@@ -2,13 +2,18 @@ package com.bin.blog.entity;
 
 import java.util.Date;
 
+/**
+ * @author 标签关系表
+ *
+ */
 public class TagRelation {
+	//关系表id
     private Long relationId;
-
+    //blogid
     private Long blogId;
-
+    //标签id
     private Integer tagId;
-
+    //创建日期
     private Date createTime;
 
     public Long getRelationId() {

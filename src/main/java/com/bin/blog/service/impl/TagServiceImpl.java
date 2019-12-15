@@ -40,6 +40,9 @@ public class TagServiceImpl implements TagService {
 	        return false;
 	    }
 
+	    /* (non-Javadoc)
+	     * 删除标签
+	     */
 	    @Override
 	    public Boolean deleteBatch(Integer[] ids) {
 	        //已存在关联关系不删除

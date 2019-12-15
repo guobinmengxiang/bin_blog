@@ -12,6 +12,9 @@ public class ResultGenerator {
     private static final int RESULT_CODE_SUCCESS = 200;
     private static final int RESULT_CODE_SERVER_ERROR = 500;
 
+    /**
+     * @return 返回状态码
+     */
     public static Result genSuccessResult() {
         Result result = new Result();
         result.setResultCode(RESULT_CODE_SUCCESS);
@@ -25,7 +28,11 @@ public class ResultGenerator {
         result.setMessage(message);
         return result;
     }
-     //调用成功
+     
+    /**
+     * @param 调用成功
+     * @return
+     */
     public static Result genSuccessResult(Object data) {
         Result result = new Result();
         result.setResultCode(RESULT_CODE_SUCCESS);
@@ -34,6 +41,10 @@ public class ResultGenerator {
         return result;
     }
 
+    /**
+     * @param 调用失败
+     * @return
+     */
     public static Result genFailResult(String message) {
         Result result = new Result();
         result.setResultCode(RESULT_CODE_SERVER_ERROR);

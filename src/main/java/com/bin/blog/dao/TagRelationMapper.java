@@ -14,6 +14,10 @@ public interface TagRelationMapper {
 
 	    TagRelation selectByPrimaryKey(Long relationId);
 
+	    /**
+	     * @param 判断此标签id是否有关联的文章
+	     * @return
+	     */
 	    List<Long> selectDistinctTagIds(Integer[] tagIds);
 
 	    int updateByPrimaryKeySelective(TagRelation record);

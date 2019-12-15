@@ -29,6 +29,7 @@ public class TagController {
 		 request.setAttribute("path", "tags");
 		return "admin/tag";
 	}
+	 //分页显示
 	 @GetMapping("/tags/list")
 	    @ResponseBody
 	 public Result list(@RequestParam Map<String,Object> params){
@@ -40,15 +41,17 @@ public class TagController {
 		 return ResultGenerator.genSuccessResult(tagservice.getBlogTagPage(pageUtil));
 		 
 	 }
-	  @PostMapping("/tags/save")
+	  /**
+	 * @param 新增标签
+	 * @return
+	 */
+	@PostMapping("/tags/save")
 	    @ResponseBody
 	 public Result saveTag(@RequestParam("tagName") String name){
-		 System.out.println("name"+name);
 		 if(StringUtils.isEmpty(name)){
 			 return ResultGenerator.genFailResult("新增标签不能为空");
 		 }
 		 if(tagservice.saveTag(name)){
-			 System.out.println("boolean值"+tagservice.saveTag(name));
 			 return ResultGenerator.genSuccessResult(); 
 		 }else{
 		
@@ -58,11 +61,15 @@ public class TagController {
 		 
 		 
 	 }
-	  @PostMapping("/tags/delete")
+	  /**
+	 * @param 删除标签
+	 * @return
+	 */
+	@PostMapping("/tags/delete")
 	    @ResponseBody
 	    public Result delete(@RequestBody Integer[] ids) {
 	        if (ids.length < 1) {
-	            return ResultGenerator.genFailResult("参数异常！");
+	            return ResultGenerator.genFailResult("没选参数你就删除，我删你个大头鬼啊");
 	        }
 	        if (tagservice.deleteBatch(ids)) {
 	            return ResultGenerator.genSuccessResult();

@@ -16,8 +16,16 @@ public interface TagService {
      */
     PageResult getBlogTagPage(PageQueryUtil pageUtil);
 
+    /**
+     * @param 查询库里是否有这个标签
+     * @return
+     */
     Boolean saveTag(String tagName);
 
+    /**
+     * @param 删除标签
+     * @return
+     */
     Boolean deleteBatch(Integer[] ids);
     List<BlogTagCount> getBlogTagCountForIndex();
 }
