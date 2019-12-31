@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.bin.blog.config.Constants;
 import com.bin.blog.entity.Blog;
 import com.bin.blog.service.BlogService;
 import com.bin.blog.service.CategoryService;
@@ -32,6 +33,7 @@ import com.bin.blog.util.MyBlogUtils;
 import com.bin.blog.util.PageQueryUtil;
 import com.bin.blog.util.Result;
 import com.bin.blog.util.ResultGenerator;
+
 
 @Controller
 // 该控制器处理的所有请求都被映射到/admin下
@@ -50,11 +52,19 @@ public class BlogController {
 		return "admin/edit";
 	}
 
+	/**
+	 * 上传图片
+	 * @param request
+	 * @param response
+	 * @param file
+	 * @throws IOException
+	 * @throws URISyntaxException
+	 */
 	@PostMapping("/blogs/md/uploadfile")
 	public void uploadFileByEditormd(HttpServletRequest request, HttpServletResponse response,
 			@RequestParam(name = "editormd-image-file", required = true) MultipartFile file)
 			throws IOException, URISyntaxException {
-		String FILE_UPLOAD_DIC = "/upload/";// 上传文件的默认url前缀，根据部署设置自行修改
+		//String FILE_UPLOAD_DIC = "/upload/";// 上传文件的默认url前缀，根据部署设置自行修改
 		String fileName = file.getOriginalFilename();
 		String suffixName = fileName.substring(fileName.lastIndexOf("."));
 		// 生成文件名称通用方法
@@ -64,10 +74,9 @@ public class BlogController {
 		tempName.append(sdf.format(new Date())).append(r.nextInt(100)).append(suffixName);
 		String newFileName = tempName.toString();
 		// 创建文件
-		File destFile = new File(FILE_UPLOAD_DIC + newFileName);
+		File destFile = new File(Constants.FILE_UPLOAD_DIC+ newFileName);
 		String fileUrl = MyBlogUtils.getHost(new URI(request.getRequestURL() + "")) + "/upload/" + newFileName;
-		// System.out.println("打印路径"+FILE_UPLOAD_DIC);
-		File fileDirectory = new File(FILE_UPLOAD_DIC);
+		File fileDirectory = new File(Constants.FILE_UPLOAD_DIC);
 		try {
 			if (!fileDirectory.exists()) {
 				if (!fileDirectory.mkdir()) {
