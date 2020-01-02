@@ -25,7 +25,8 @@ $(function () {
     });
 
     new AjaxUpload('#uploadCoverImage', {
-        action: '/admin/upload/file',
+       action: '/admin/upload/file',
+        /*action: ' /blogs/md/uploadfile',*/
         name: 'file',
         autoSubmit: true,
         responseType: "json",
