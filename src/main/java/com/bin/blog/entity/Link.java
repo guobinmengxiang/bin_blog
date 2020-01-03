@@ -3,20 +3,21 @@ package com.bin.blog.entity;
 import java.util.Date;
 
 public class Link {
+	//id
     private Integer linkId;
-
+    //type
     private Byte linkType;
-
+    //name
     private String linkName;
-
+    //url
     private String linkUrl;
-
+    //描述
     private String linkDescription;
-
+    //用于列表排序
     private Integer linkRank;
-
+    //是否删除
     private Byte isDeleted;
-
+    //时间
     private Date createTime;
 
     public Integer getLinkId() {

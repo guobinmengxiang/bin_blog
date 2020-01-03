@@ -27,6 +27,10 @@ public class LinkController {
         return "admin/link";
     }
 
+    /**
+     * @param 分页显示
+     * @return
+     */
     @GetMapping("/links/list")
     @ResponseBody
     public Result list(@RequestParam Map<String, Object> params) {
@@ -36,6 +40,10 @@ public class LinkController {
         PageQueryUtil pageUtil = new PageQueryUtil(params);
         return ResultGenerator.genSuccessResult(linkService.getBlogLinkPage(pageUtil));
     }
+    
+    /**
+     * @param 新增
+     */
     @RequestMapping(value = "/links/save", method = RequestMethod.POST)
     @ResponseBody
     public Result save(@RequestParam("linkType") Integer linkType,
