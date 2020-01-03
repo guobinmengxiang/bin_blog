@@ -36,7 +36,10 @@ public interface CategoryService {
 
     Boolean deleteBatch(Integer[] ids);
 
-    List<Category> getAllCategories();//
+    /**
+     * @获取所有分类信息
+     */
+    List<Category> getAllCategories();
 
     Category selectById(Integer id);
 }

@@ -98,6 +98,10 @@ public class BlogController {
 		}
 	}
 
+	/**
+	 * 博客新增
+	 * @return
+	 */
 	@PostMapping("/blogs/save")
 	@ResponseBody
 	public Result save(@RequestParam("blogTitle") String blogTitle,
@@ -160,6 +164,9 @@ public class BlogController {
 		return "admin/edit";
 
 	}
+	/**
+	 * @param修改博客信息
+	 */
 	@PostMapping("/blogs/update")
     @ResponseBody
 	public Result update(@RequestParam("blogId") Long blogId, @RequestParam("blogTitle") String blogTitle,
@@ -215,6 +222,10 @@ public class BlogController {
 		return "admin/blog";
 	}
 
+	/**
+	 * @param 显示博客信息
+	 * @return
+	 */
 	@GetMapping("/blogs/list")
 	@ResponseBody
 	public Result list(@RequestParam Map<String, Object> params) {

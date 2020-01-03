@@ -85,6 +85,7 @@ public class BlogServiceImpl implements BlogService {
             if (!CollectionUtils.isEmpty(tagListForInsert)) {
                 tagMapper.batchInsertBlogTag(tagListForInsert);
             }
+            //其实主要是为了更新排序值的
             categoryMapper.updateByPrimaryKeySelective(blogCategory);
             List<TagRelation> blogTagRelations = new ArrayList<>();
             //新增关系数据
@@ -92,7 +93,6 @@ public class BlogServiceImpl implements BlogService {
             for (Tag tag : allTagsList) {
                 TagRelation blogTagRelation = new TagRelation();
                 blogTagRelation.setBlogId(blog.getBlogId());
-               // System.out.println("blogTagRelation");
                 blogTagRelation.setTagId(tag.getTagId());
                 blogTagRelations.add(blogTagRelation);
             }

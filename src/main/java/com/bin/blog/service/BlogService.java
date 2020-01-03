@@ -9,10 +9,27 @@ import com.bin.blog.util.PageQueryUtil;
 import com.bin.blog.util.PageResult;
 
 public interface BlogService {
+	
+/**
+ * @param add blog
+ * @return
+ */
 String save(Blog blog);
+/**
+ * @param 根据博客id得到博客内容
+ * @return
+ */
 Blog getBlogById(Long blogid);
+/**
+ * @param 修改博客信息
+ * @return
+ */
 String updateBlog(Blog blog);
 PageResult getBlogsPage(PageQueryUtil pageUtil);
+/**
+ * @param 删除博客信息
+ * @return
+ */
 Boolean deleteBatch(Integer[] ids);
 /**
  * 首页侧边栏数据列表

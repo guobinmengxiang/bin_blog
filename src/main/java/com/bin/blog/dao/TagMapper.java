@@ -48,7 +48,11 @@ public interface TagMapper {
 	     * @return
 	     */
 	    int deleteBatch(Integer[] ids);
-	   int batchInsertBlogTag(List<Tag> tagList);
+	   /**
+	 * @param 博客标签表中新增数据
+	 * @return
+	 */
+	int batchInsertBlogTag(List<Tag> tagList);
 	   List<BlogTagCount> getTagCount();
 
 }

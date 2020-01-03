@@ -14,11 +14,17 @@ public interface CategoryMapper {
 	 //   int insert(Category record);
          //新增分类
 	    int insertSelective(Category record);
-
+        
+	    /**
+	     * 根据传入的分类id,查询是否有记录
+	     */
 	    Category selectByPrimaryKey(Integer categoryId);
         //查询是否有此分类
 	    Category selectByCategoryName(String categoryName);
-        //修改分类名称
+	    /**
+	     * @param 修改分类名称
+	     * @return
+	     */
 	    int updateByPrimaryKeySelective(Category record);
 
 	   // int updateByPrimaryKey(Category record);

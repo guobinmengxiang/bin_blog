@@ -23,7 +23,15 @@ public interface TagRelationMapper {
 	    int updateByPrimaryKeySelective(TagRelation record);
 
 	    int updateByPrimaryKey(TagRelation record);
+	    /**
+	     * @param标签关系表
+	     * @return
+	     */
 	    int batchInsert(@Param("relationList") List<TagRelation> blogTagRelationList);
+	    /**
+	     * @param 删除对应的关联信息
+	     * @return
+	     */
 	    int deleteByBlogId(Long id);
 
 	}

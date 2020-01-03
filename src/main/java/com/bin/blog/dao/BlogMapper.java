@@ -13,10 +13,22 @@ public interface BlogMapper {
 
     int insert(Blog record);
 
+    /**
+     * @param 新增博客
+     * @return
+     */
     int insertSelective(Blog record);
 
+    /**
+     * @param 根据博客id查询博客内容用于展示
+     * @return
+     */
     Blog selectByPrimaryKey(Long blogId);
 
+    /**
+     * @param 修改博客信息
+     * @return
+     */
     int updateByPrimaryKeySelective(Blog record);
 
     int updateByPrimaryKeyWithBLOBs(Blog record);
@@ -24,6 +36,10 @@ public interface BlogMapper {
     int updateByPrimaryKey(Blog record);
     List<Blog> findBlogList(PageQueryUtil pageUtil);
     int getTotalBlogs(PageQueryUtil pageUtil);
+    /**
+     * @param 删除博客信息
+     * @return
+     */
     int deleteBatch(Integer[] ids);
     List<Blog> findBlogListByType(@Param("type") int type, @Param("limit") int limit);
     List<Blog> getBlogsPageByTagId(PageQueryUtil pageUtil);
