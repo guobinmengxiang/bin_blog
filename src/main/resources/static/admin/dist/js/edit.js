@@ -24,9 +24,42 @@ $(function () {
         }
     });
 
+    // 编辑器粘贴上传
+    document.getElementById("blog-editormd").addEventListener("paste", function (e) {
+        var clipboardData = e.clipboardData;
+        if (clipboardData) {
+            var items = clipboardData.items;
+            if (items && items.length > 0) {
+                for (var item of items) {
+                    if (item.type.startsWith("image/")) {
+                        var file = item.getAsFile();
+                        if (!file) {
+                            alert("请上传有效文件");
+                            return;
+                        }
+                        var formData = new FormData();
+                        formData.append('file', file);
+                        var xhr = new XMLHttpRequest();
+                        xhr.open("POST", "/admin/upload/file");
+                        xhr.onreadystatechange = function () {
+                            if (xhr.readyState == 4 && xhr.status == 200) {
+                                var json=JSON.parse(xhr.responseText);
+                                if (json.resultCode == 200) {
+                                    blogEditor.insertValue("![](" + json.data + ")");
+                                } else {
+                                    alert("上传失败");
+                                }
+                            }
+                        }
+                        xhr.send(formData);
+                    }
+                }
+            }
+        }
+    });
+
     new AjaxUpload('#uploadCoverImage', {
-       action: '/admin/upload/file',
-        /*action: ' /blogs/md/uploadfile',*/
+        action: '/admin/upload/file',
         name: 'file',
         autoSubmit: true,
         responseType: "json",
@@ -49,15 +82,11 @@ $(function () {
 });
 
 $('#confirmButton').click(function () {
-    var blogId = $('#blogId').val();
     var blogTitle = $('#blogName').val();
     var blogSubUrl = $('#blogSubUrl').val();
     var blogCategoryId = $('#blogCategoryId').val();
     var blogTags = $('#blogTags').val();
     var blogContent = blogEditor.getMarkdown();
-    var blogCoverImage = $('#blogCoverImage')[0].src;
-    var blogStatus = $("input[name='blogStatus']:checked").val();
-    var enableComment = $("input[name='enableComment']:checked").val();
     if (isNull(blogTitle)) {
         swal("请输入文章标题", {
             icon: "error",
@@ -106,6 +135,19 @@ $('#confirmButton').click(function () {
         });
         return;
     }
+    $('#articleModal').modal('show');
+});
+
+$('#saveButton').click(function () {
+    var blogId = $('#blogId').val();
+    var blogTitle = $('#blogName').val();
+    var blogSubUrl = $('#blogSubUrl').val();
+    var blogCategoryId = $('#blogCategoryId').val();
+    var blogTags = $('#blogTags').val();
+    var blogContent = blogEditor.getMarkdown();
+    var blogCoverImage = $('#blogCoverImage')[0].src;
+    var blogStatus = $("input[name='blogStatus']:checked").val();
+    var enableComment = $("input[name='enableComment']:checked").val();
     if (isNull(blogCoverImage) || blogCoverImage.indexOf('img-upload') != -1) {
         swal("封面图片不能为空", {
             icon: "error",
@@ -119,7 +161,6 @@ $('#confirmButton').click(function () {
         "blogTags": blogTags, "blogContent": blogContent, "blogCoverImage": blogCoverImage, "blogStatus": blogStatus,
         "enableComment": enableComment
     };
-    //blogId大于0则为修改操作
     if (blogId > 0) {
         url = '/admin/blogs/update';
         swlMessage = '修改成功';
@@ -142,11 +183,21 @@ $('#confirmButton').click(function () {
         data: data,
         success: function (result) {
             if (result.resultCode == 200) {
-                swal(swlMessage, {
-                    icon: "success"
-                });
+                $('#articleModal').modal('hide');
+                swal({
+                    title: swlMessage,
+                    type: 'success',
+                    showCancelButton: false,
+                    confirmButtonColor: '#3085d6',
+                    confirmButtonText: '返回博客列表',
+                    confirmButtonClass: 'btn btn-success',
+                    buttonsStyling: false
+                }).then(function () {
+                    window.location.href = "/admin/blogs";
+                })
             }
             else {
+                $('#articleModal').modal('hide');
                 swal(result.message, {
                     icon: "error",
                 });

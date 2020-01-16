@@ -1,5 +1,8 @@
 package com.bin.blog.controller.blog;
 
+import java.util.List;
+import java.util.Map;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -14,14 +17,19 @@ import org.thymeleaf.util.StringUtils;
 
 import com.bin.blog.controller.vo.BlogDetailVO;
 import com.bin.blog.entity.Comment;
+import com.bin.blog.entity.Link;
 import com.bin.blog.service.BlogService;
+import com.bin.blog.service.CategoryService;
 import com.bin.blog.service.CommentService;
+
+import com.bin.blog.service.LinkService;
 import com.bin.blog.service.TagService;
 import com.bin.blog.util.MyBlogUtils;
 import com.bin.blog.util.PageResult;
 import com.bin.blog.util.PatternUtil;
 import com.bin.blog.util.Result;
 import com.bin.blog.util.ResultGenerator;
+
 
 @Controller
 public class MyBlogController {
@@ -31,6 +39,13 @@ public class MyBlogController {
 	private TagService tagService;
 	@Resource
 	private CommentService commentService;
+	   @Resource
+	    private  CategoryService categoryService;
+	    @Resource
+	    private LinkService linkService;
+	    //public static String theme = "default";
+	    public static String theme = "yummy-jekyll";
+	    //public static String theme = "amaze";
 	 /**
      * 首页(取第一页数据)
      *
@@ -81,6 +96,10 @@ public class MyBlogController {
         request.setAttribute("pageName", "搜索");
         request.setAttribute("pageUrl", "search");
         request.setAttribute("keyword", keyword);
+        request.setAttribute("newBlogs", blogService.getBlogListForIndexPage(1));
+        request.setAttribute("hotBlogs", blogService.getBlogListForIndexPage(0));
+        request.setAttribute("hotTags", tagService.getBlogTagCountForIndex());
+      //  request.setAttribute("configurations", configService.getAllConfigs());
         return "blog/list";
     }
     /**
@@ -105,6 +124,10 @@ public class MyBlogController {
         request.setAttribute("pageName", "分类");
         request.setAttribute("pageUrl", "category");
         request.setAttribute("keyword", categoryName);
+        request.setAttribute("newBlogs", blogService.getBlogListForIndexPage(1));
+        request.setAttribute("hotBlogs", blogService.getBlogListForIndexPage(0));
+        request.setAttribute("hotTags", tagService.getBlogTagCountForIndex());
+        //request.setAttribute("configurations", configService.getAllConfigs());
         return "blog/list";
     }
     /**
@@ -129,6 +152,10 @@ public class MyBlogController {
         request.setAttribute("pageName", "标签");
         request.setAttribute("pageUrl", "tag");
         request.setAttribute("keyword", tagName);
+        request.setAttribute("newBlogs", blogService.getBlogListForIndexPage(1));
+        request.setAttribute("hotBlogs", blogService.getBlogListForIndexPage(0));
+        request.setAttribute("hotTags", tagService.getBlogTagCountForIndex());
+       // request.setAttribute("configurations", configService.getAllConfigs());
         return "blog/list";
     }
     /**
@@ -136,7 +163,7 @@ public class MyBlogController {
      *
      * @return
      */
-    @GetMapping("/blog/{blogId}")
+    @GetMapping({"/blog/{blogId}", "/article/{blogId}"})
     public String detail(HttpServletRequest request, @PathVariable("blogId") Long blogId, @RequestParam(value = "commentPage", required = false, defaultValue = "1") Integer commentPage) {
         BlogDetailVO blogDetailVO = blogService.getBlogDetail(blogId);
         if (blogDetailVO != null) {
@@ -193,5 +220,59 @@ public class MyBlogController {
         }
         comment.setCommentBody(MyBlogUtils.cleanString(commentBody));
         return ResultGenerator.genSuccessResult(commentService.addComment(comment));
+    }
+    /**
+     * Categories页面(包括分类数据和标签数据)
+     *
+     * @return
+     */
+    @GetMapping({"/categories"})
+    public String categories(HttpServletRequest request) {
+        request.setAttribute("hotTags", tagService.getBlogTagCountForIndex());
+        request.setAttribute("categories", categoryService.getAllCategories());
+        request.setAttribute("pageName", "分类页面");
+       // request.setAttribute("configurations", configService.getAllConfigs());
+        return "blog/category";
+    }
+    /**
+     * 友情链接页
+     *
+     * @return
+     */
+    @GetMapping({"/link"})
+    public String link(HttpServletRequest request) {
+        request.setAttribute("pageName", "友情链接");
+        Map<Byte, List<Link>> linkMap = linkService.getLinksForLinkPage();
+        if (linkMap != null) {
+            //判断友链类别并封装数据 0-友链 1-推荐 2-个人网站
+            if (linkMap.containsKey((byte) 0)) {
+                request.setAttribute("favoriteLinks", linkMap.get((byte) 0));
+            }
+            if (linkMap.containsKey((byte) 1)) {
+                request.setAttribute("recommendLinks", linkMap.get((byte) 1));
+            }
+            if (linkMap.containsKey((byte) 2)) {
+                request.setAttribute("personalLinks", linkMap.get((byte) 2));
+            }
+        }
+       // request.setAttribute("configurations", configService.getAllConfigs());
+        return "blog/link";
+    }
+    /**
+     * 关于页面 以及其他配置了subUrl的文章页
+     *
+     * @return
+     */
+    @GetMapping({"/{subUrl}"})
+    public String detail(HttpServletRequest request, @PathVariable("subUrl") String subUrl) {
+        BlogDetailVO blogDetailVO = blogService.getBlogDetailBySubUrl(subUrl);
+        if (blogDetailVO != null) {
+            request.setAttribute("blogDetailVO", blogDetailVO);
+            request.setAttribute("pageName", subUrl);
+           // request.setAttribute("configurations", configService.getAllConfigs());
+            return "blog/detail";
+        } else {
+            return "error/error_400";
+        }
     }
 }

@@ -14,6 +14,11 @@ import org.thymeleaf.util.StringUtils;
 
 import com.bin.blog.entity.AdminUser;
 import com.bin.blog.service.AdminUserService;
+import com.bin.blog.service.BlogService;
+import com.bin.blog.service.CategoryService;
+import com.bin.blog.service.CommentService;
+import com.bin.blog.service.LinkService;
+import com.bin.blog.service.TagService;
 /**
  * @author 管理员 Controller
  *
@@ -24,6 +29,16 @@ import com.bin.blog.service.AdminUserService;
 public class AdminController {
 	@Resource
 	AdminUserService adminUserService;
+	    @Resource
+	    private BlogService blogService;
+	    @Resource
+	    private CategoryService categoryService;
+	    @Resource
+	    private LinkService linkService;
+	    @Resource
+	    private TagService tagService;
+	    @Resource
+	    private CommentService commentService;
 	//映射一个get请求 到login.html
 	  @GetMapping({"/login"})
 	    public String login() {
@@ -114,8 +129,19 @@ public String login(@RequestParam("userName")String name ,
           request.getSession().removeAttribute("errorMsg");
 		  return "admin/login";
 	  }
-	  @GetMapping({"", "/", "/index", "/index.html"})
-	    public String index() {
+	  /**
+	 * @param 后台首页，仪表盘
+	 * @return
+	 */
+	@GetMapping({"", "/", "/index", "/index.html"})
+	    public String index(HttpServletRequest request) {
+	        request.setAttribute("path", "index");
+	        request.setAttribute("categoryCount", categoryService.getTotalCategories());
+	        request.setAttribute("blogCount", blogService.getTotalBlogs());
+	        request.setAttribute("linkCount", linkService.getTotalLinks());
+	        request.setAttribute("tagCount", tagService.getTotalTags());
+	        request.setAttribute("commentCount", commentService.getTotalComments());
+	        request.setAttribute("path", "index");
 	        return "admin/index";
 	    }
 	  

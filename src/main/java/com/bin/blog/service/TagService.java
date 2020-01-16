@@ -28,4 +28,8 @@ public interface TagService {
      */
     Boolean deleteBatch(Integer[] ids);
     List<BlogTagCount> getBlogTagCountForIndex();
+    /**
+     * @return 标签总数
+     */
+    int getTotalTags();
 }

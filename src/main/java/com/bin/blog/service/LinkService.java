@@ -1,5 +1,8 @@
 package com.bin.blog.service;
 
+import java.util.List;
+import java.util.Map;
+
 import com.bin.blog.entity.Link;
 import com.bin.blog.util.PageQueryUtil;
 import com.bin.blog.util.PageResult;
@@ -30,4 +33,14 @@ public interface LinkService {
 	     * @return
 	     */
 	    Boolean updateLink(Link tempLink);
+	    /**
+	     * 返回友链页面所需的所有数据
+	     *
+	     * @return
+	     */
+	    Map<Byte, List<Link>> getLinksForLinkPage();
+	    /**
+	     * @return 友链总数
+	     */
+	    int getTotalLinks();
 }

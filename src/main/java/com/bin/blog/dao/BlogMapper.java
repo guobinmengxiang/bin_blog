@@ -44,5 +44,6 @@ public interface BlogMapper {
     List<Blog> findBlogListByType(@Param("type") int type, @Param("limit") int limit);
     List<Blog> getBlogsPageByTagId(PageQueryUtil pageUtil);
     int getTotalBlogsByTagId(PageQueryUtil pageUtil);
+    Blog selectBySubUrl(String subUrl);
 
 }

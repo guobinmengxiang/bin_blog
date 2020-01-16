@@ -133,7 +133,7 @@ public class BlogController {
 		if (StringUtils.isEmpty(blogCoverImage)) {
 			return ResultGenerator.genFailResult("封面图不能为空");
 		}
-
+System.out.println("知识测试一下");
 		Blog blog = new Blog();
 		blog.setBlogTitle(blogTitle);
 		blog.setBlogSubUrl(blogSubUrl);
@@ -235,7 +235,11 @@ public class BlogController {
 		PageQueryUtil pageUtil = new PageQueryUtil(params);
 		return ResultGenerator.genSuccessResult(blogService.getBlogsPage(pageUtil));
 	}
-	 @PostMapping("/blogs/delete")
+	 /**
+	 * @param 删除博客
+	 * @return
+	 */
+	@PostMapping("/blogs/delete")
 	    @ResponseBody
 	    public Result delete(@RequestBody Integer[] ids) {
 	        if (ids.length < 1) {

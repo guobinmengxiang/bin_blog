@@ -58,4 +58,9 @@ public class TagServiceImpl implements TagService {
 	    public List<BlogTagCount> getBlogTagCountForIndex() {
 	        return tagMapper.getTagCount();
 	    }
+
+	    @Override
+	    public int getTotalTags() {
+	        return tagMapper.getTotalTags(null);
+	    }
 	}

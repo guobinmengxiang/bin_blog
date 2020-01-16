@@ -74,4 +74,9 @@ PageResult getBlogsPageByTag(String tagName, int page);
  * @return
  */
 BlogDetailVO getBlogDetail(Long blogId);
+BlogDetailVO getBlogDetailBySubUrl(String subUrl);
+/**
+ * @return 博客总数
+ */
+int getTotalBlogs();
 }
