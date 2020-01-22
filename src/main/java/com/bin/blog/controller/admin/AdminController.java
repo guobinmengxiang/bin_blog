@@ -122,7 +122,8 @@ public String login(@RequestParam("userName")String name ,
 	            return "修改失败";
 	        }
 	    }
-	  @PostMapping("/admin/logout")
+	//  @PostMapping("/logout")
+	  @GetMapping({"/logout"})
 	  public String logout (HttpServletRequest request){
 		  request.getSession().removeAttribute("loginUserId");
           request.getSession().removeAttribute("loginUser");
