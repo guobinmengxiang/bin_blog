@@ -275,4 +275,8 @@ public class MyBlogController {
             return "error/error_400";
         }
     }
+    @GetMapping({"/treasure"})
+    public String treasure(){
+    	  return "blog/treasure";
+    }
 }
