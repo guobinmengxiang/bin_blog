@@ -9,7 +9,6 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
@@ -219,8 +218,6 @@ public class BlogServiceImpl implements BlogService {
      * @return
      */
     @Override
-    //@Cacheable(cacheNames = "blogHomePage") 缓存注解
-    @Cacheable(cacheNames = "blogHomePage")
     public PageResult getBlogsForIndexPage(int page) {
         Map params = new HashMap();
         params.put("page", page);
