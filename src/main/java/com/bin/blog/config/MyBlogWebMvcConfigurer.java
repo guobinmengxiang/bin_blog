@@ -9,6 +9,10 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import com.bin.blog.interceptor.AdminLoginInterceptor;
 
 
+/**
+ * @author 配置拦截器
+ *
+ */
 @Configuration
 public class MyBlogWebMvcConfigurer implements WebMvcConfigurer {
 

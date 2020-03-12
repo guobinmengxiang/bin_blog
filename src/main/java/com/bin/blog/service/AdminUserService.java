@@ -9,7 +9,11 @@ import com.bin.blog.entity.AdminUser;
 public interface AdminUserService {
 //登录
 AdminUser login (String name ,String password);
-//根据id得到用户信息
+
+/**
+ * @param 根据id得到用户信息
+ * @return
+ */
 AdminUser getUserId(Integer id);
 //更改用户名
 Boolean updateName(Integer id,String name,String NickName);

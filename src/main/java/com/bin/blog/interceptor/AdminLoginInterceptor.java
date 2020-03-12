@@ -25,6 +25,7 @@ public class AdminLoginInterceptor implements HandlerInterceptor {
             response.sendRedirect(request.getContextPath() + "/admin/login");
             return false;
         } else {
+        	//如果已经登录，则清除掉异常信息
             request.getSession().removeAttribute("errorMsg");
             return true;
         }

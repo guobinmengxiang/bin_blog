@@ -6,6 +6,7 @@ $(function () {
         var nickName = $('#nickName').val();
         if (validUserNameForUpdate(userName, nickName)) {
             //ajax提交数据
+        	//序列化表单内容为字符串,用于Ajax请求。
             var params = $("#userNameForm").serialize();
             $.ajax({
                 type: "POST",

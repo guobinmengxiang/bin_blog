@@ -39,7 +39,7 @@ public class AdminController {
 	    private TagService tagService;
 	    @Resource
 	    private CommentService commentService;
-	//映射一个get请求 到login.html
+//映射一个get请求 到login.html
 	  @GetMapping({"/login"})
 	    public String login() {
 	        return "admin/login";
@@ -50,7 +50,8 @@ public String login(@RequestParam("userName")String name ,
 		@RequestParam("password")String password,
 		@RequestParam("verifyCode")String verifyCode,
 		HttpSession session){
-	if(StringUtils.isEmpty(verifyCode)){
+		//我认为如下注释掉的代码应该在前端控制
+	/*if(StringUtils.isEmpty(verifyCode)){
 		session.setAttribute("errorMsg","验证码不能为空");
 		return "admin/login";
 	}
@@ -62,7 +63,7 @@ public String login(@RequestParam("userName")String name ,
       if (StringUtils.isEmpty(kaptchaCode) || !verifyCode.equals(kaptchaCode)) {
           session.setAttribute("errorMsg", "验证码错误");
           return "admin/login";
-      }
+      }*/
       AdminUser userAdmin = adminUserService.login(name, password);
       //登录成功，存session,两个小时免登陆
       if (userAdmin != null) {
@@ -80,7 +81,8 @@ public String login(@RequestParam("userName")String name ,
 	  @GetMapping({"/profile"})
 	public String profile(HttpServletRequest request){
 		Integer loginUserId = (int) request.getSession().getAttribute("loginUserId");
-			AdminUser adminuser=adminUserService.getUserId(loginUserId);
+			
+		AdminUser adminuser=adminUserService.getUserId(loginUserId);
 			if(adminuser==null){
 				return "admin/login";
 			}
